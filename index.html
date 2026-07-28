@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EmailHelper SAP</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏨 EmailHelper SAP</h1>
+
+<p>Generatore automatico email da screenshot SAP</p>
+
+<div class="box">
+
+<h2>📷 Screenshot SAP</h2>
+
+<input type="file" id="imageInput" accept="image/*">
+
+<br><br>
+
+<img id="preview" style="max-width:100%; display:none; border-radius:10px;">
+
+</div>
+
+<div class="box">
+
+<h2>📄 Seleziona Template</h2>
+
+<button id="privato">👤 Privato</button>
+
+<button id="azienda">🏢 Azienda</button>
+
+<button id="agenzia">✈️ Agenzia</button>
+
+</div>
+
+<div class="box">
+
+<h2>✉️ Email generata</h2>
+
+<textarea id="output" rows="18"></textarea>
+
+<br><br>
+
+<button id="copy">📋 Copia Email</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
