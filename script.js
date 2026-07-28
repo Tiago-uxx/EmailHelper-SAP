@@ -1,68 +1,26 @@
 const upload = document.getElementById("upload");
 const preview = document.getElementById("preview");
 
-upload.addEventListener("change", function () {
+upload.addEventListener("change", async function () {
 
     const file = this.files[0];
 
     if (!file) return;
 
-    const reader = new FileReader();
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
 
-    reader.onload = function(e){
+    document.getElementById("emailFinale").value =
+        "⏳ Sto leggendo lo screenshot SAP...";
 
-        preview.src = e.target.result;
-        preview.style.display = "block";
+    const result = await Tesseract.recognize(
+        file,
+        "eng+ita"
+    );
 
-    }
+    const testo = result.data.text;
 
-    reader.readAsDataURL(file);
+    console.log(testo);
 
+    document.getElementById("emailFinale").value = testo;
 });
-
-document.getElementById("privato").onclick = function(){
-
-    document.getElementById("emailFinale").value =
-`Gentile Cliente,
-
-Grazie per aver contattato Minor Hotels.
-
-Qui verrà inserita automaticamente la proposta.
-
-Cordiali Saluti`;
-
-}
-
-document.getElementById("azienda").onclick = function(){
-
-    document.getElementById("emailFinale").value =
-`Gentile Azienda,
-
-Grazie per la richiesta.
-
-Qui verrà inserita automaticamente la proposta.
-
-Cordiali Saluti`;
-
-}
-
-document.getElementById("agenzia").onclick = function(){
-
-    document.getElementById("emailFinale").value =
-`Gentile Agenzia,
-
-Grazie per la richiesta.
-
-Qui verrà inserita automaticamente la proposta.
-
-Cordiali Saluti`;
-
-}
-
-document.getElementById("copia").onclick=function(){
-
-navigator.clipboard.writeText(document.getElementById("emailFinale").value);
-
-alert("Email copiata!");
-
-}
