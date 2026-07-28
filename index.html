@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EmailHelper SAP</title>
+<title>Email Helper SAP</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,50 +14,61 @@
 
 <div class="container">
 
-<h1>🏨 EmailHelper SAP</h1>
+<h1>📩 Email Helper SAP</h1>
 
 <p>Generatore automatico email da screenshot SAP</p>
-
-<div class="box">
-
-<h2>📷 Screenshot SAP</h2>
 
 <input type="file" id="imageInput" accept="image/*">
 
 <br><br>
 
-<img id="preview" style="max-width:100%; display:none; border-radius:10px;">
+<button id="leggiSap">
+📷 Leggi Screenshot SAP
+</button>
+
+<hr>
+
+<h2>Dati trovati</h2>
+
+<div id="risultato">
+
+Nessuno screenshot analizzato.
 
 </div>
 
-<div class="box">
+<hr>
 
-<h2>📄 Seleziona Template</h2>
+<h2>Template</h2>
 
-<button id="privato">👤 Privato</button>
+<button id="privato">
+Privato
+</button>
 
-<button id="azienda">🏢 Azienda</button>
+<button id="azienda">
+Azienda
+</button>
 
-<button id="agenzia">✈️ Agenzia</button>
+<button id="agenzia">
+Agenzia
+</button>
 
-</div>
+<hr>
 
-<div class="box">
+<h2>Email generata</h2>
 
-<h2>✉️ Email generata</h2>
-
-<textarea id="output" rows="18"></textarea>
+<textarea id="emailFinale" rows="18"></textarea>
 
 <br><br>
 
-<button id="copy">📋 Copia Email</button>
+<button id="copia">
 
-</div>
+📋 Copia Email
+
+</button>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
