@@ -151,11 +151,15 @@ function analizzaSAP(testo){
 }
 // ===== Avvio OCR =====
 
-if (!window.immagineSAP) {
-    alert("Prima incolla lo screenshot con CTRL+V");
-    return;
-}
+document.getElementById("leggiSap").addEventListener("click", () => {
 
-leggiSAP(window.immagineSAP);
+    if (!window.immagineSAP) {
+        alert("Prima incolla lo screenshot con CTRL+V");
+        return;
+    }
+
+    leggiSAP(window.immagineSAP);
+
+
 
 });
