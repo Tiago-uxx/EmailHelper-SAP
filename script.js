@@ -149,3 +149,20 @@ function analizzaSAP(testo){
 `;
 
 }
+// ===== Avvio OCR =====
+
+document.getElementById("leggiSap").addEventListener("click", () => {
+
+    const input = document.getElementById("imageInput");
+
+    if (input.files.length === 0) {
+
+        alert("Seleziona prima uno screenshot SAP.");
+
+        return;
+
+    }
+
+    leggiSAP(input.files[0]);
+
+});
