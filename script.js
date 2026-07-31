@@ -91,3 +91,61 @@ ${cancellazione}`;
 
     document.getElementById("emailFinale").value = testo;
 });
+// ===== OCR SAP =====
+
+async function leggiSAP(file) {
+
+    document.getElementById("risultato").innerHTML =
+    "⏳ Analisi screenshot in corso...";
+
+    const risultato = await Tesseract.recognize(
+        file,
+        "eng+ita"
+    );
+
+    const testo = risultato.data.text;
+
+    console.log(testo);
+
+    analizzaSAP(testo);
+
+}
+
+function analizzaSAP(testo){
+
+    let dati = {
+
+        hotel:"",
+        checkin:"",
+        checkout:"",
+        adulti:"",
+        camere:[],
+        prezzi:[],
+        cancellazione:""
+
+    };
+
+    const date = testo.match(/\d{2}\.\d{2}\.\d{2}/g);
+
+    if(date && date.length>=2){
+
+        dati.checkin=date[0];
+        dati.checkout=date[1];
+
+    }
+
+    if(testo.includes("2 AD")){
+
+        dati.adulti="2 Adulti";
+
+    }
+
+    document.getElementById("risultato").innerHTML=
+`
+🏨 Hotel: ${dati.hotel}<br>
+📅 Check-in: ${dati.checkin}<br>
+📅 Check-out: ${dati.checkout}<br>
+👥 ${dati.adulti}
+`;
+
+}
