@@ -1,4 +1,4 @@
-const upload = document.getElementById("upload");
+const upload = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 
 upload.addEventListener("change", async function () {
