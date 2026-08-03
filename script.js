@@ -1,7 +1,4 @@
-[12:34, 3/8/2026] G C: // ===============================
-// EMAIL HELPER SAP - MODULO 1
-// CTRL+V + Anteprima Screenshot
-// ===============================
+
 
 let immagineSAP = null;
 
