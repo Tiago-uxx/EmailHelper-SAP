@@ -179,3 +179,87 @@ function analizzaSAP(testo) {
     };
 
 }
+// ===============================
+// Pulsante Leggi Screenshot SAP
+// ===============================
+
+document.getElementById("leggiSap").addEventListener("click", () => {
+
+    if (!immagineSAP) {
+        alert("Prima incolla uno screenshot SAP con CTRL + V");
+        return;
+    }
+
+    leggiSAP(immagineSAP);
+
+});
+
+// ===============================
+// Template Email
+// ===============================
+
+function generaEmail(tipo) {
+
+    if (!window.datiSAP) {
+        alert("Prima analizza uno screenshot SAP.");
+        return;
+    }
+
+    const d = window.datiSAP;
+
+    let email = "";
+
+    if (tipo === "privato") {
+
+        email =
+`Gentile ${d.nome},
+
+La ringraziamo per aver contattato Minor Hotels.
+
+Hotel: ${d.hotel}
+Check-in: ${d.checkin}
+Check-out: ${d.checkout}
+
+Rimaniamo a disposizione.
+
+Cordiali saluti`;
+
+    }
+
+    if (tipo === "azienda") {
+
+        email =
+`Gentili,
+
+Di seguito i dati richiesti.
+
+Hotel: ${d.hotel}
+Check-in: ${d.checkin}
+Check-out: ${d.checkout}
+
+Cordiali saluti`;
+
+    }
+
+    if (tipo === "agenzia") {
+
+        email =
+`Gentile Agenzia,
+
+Hotel: ${d.hotel}
+Check-in: ${d.checkin}
+Check-out: ${d.checkout}
+
+Restiamo a disposizione.
+
+Cordiali saluti`;
+
+    }
+
+    emailFinale.value = email;
+
+}
+
+document.getElementById("privato").onclick = () => generaEmail("privato");
+document.getElementById("azienda").onclick = () => generaEmail("azienda");
+document.getElementById("agenzia").onclick = () => generaEmail("agenzia");
