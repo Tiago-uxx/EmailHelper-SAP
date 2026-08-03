@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Email Helper SAP</title>
 
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 </head>
 
@@ -15,26 +19,32 @@
 <div class="container">
 
 <div class="header">
-    <img src="retina-1731498477.png.jpg" class="logo">
-    <div>
-        <h1>Email Helper SAP</h1>
-        <p>Generatore automatico di email da screenshot SAP</p>
-    </div>
+
+<img src="retina-1731498477.png.jpg" class="logo">
+
+<div>
+
+<h1>Email Helper SAP</h1>
+
+<p>Generatore automatico email Minor Hotels</p>
+
 </div>
 
+</div>
 
+<div id="pasteArea" class="pasteArea">
 
-<div id="pasteArea" class="paste-area">
 📋 Premi CTRL + V per incollare lo screenshot SAP
+
 </div>
 
-<br><br>
+<img id="preview" class="preview">
 
 <button id="leggiSap">
-📷 Leggi Screenshot SAP
-</button>
 
-<hr>
+📷 Leggi Screenshot SAP
+
+</button>
 
 <h2>Dati trovati</h2>
 
@@ -44,40 +54,20 @@ Nessuno screenshot analizzato.
 
 </div>
 
-<hr>
+<h2>Email</h2>
 
-<h2>Template</h2>
+<textarea id="emailFinale"></textarea>
 
-<button id="privato">
-Privato
-</button>
-
-<button id="azienda">
-Azienda
-</button>
-
-<button id="agenzia">
-Agenzia
-</button>
-
-<hr>
-
-<h2>Email generata</h2>
-
-<textarea id="emailFinale" rows="18"></textarea>
-
-<br><br>
-
-<button id="copia">
+<button id="copiaEmail">
 
 📋 Copia Email
 
 </button>
 
 </div>
-<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <script src="script.js"></script>
 
-
 </body>
+
 </html>
