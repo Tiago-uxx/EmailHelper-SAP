@@ -1,165 +1,133 @@
-const upload = document.getElementById("imageInput");
+[12:34, 3/8/2026] G C: // ===============================
+// EMAIL HELPER SAP - MODULO 1
+// CTRL+V + Anteprima Screenshot
+// ===============================
+
+let immagineSAP = null;
+
+const pasteArea = document.getElementById("pasteArea");
 const preview = document.getElementById("preview");
+const risultato = document.getElementById("risultato");
 
-upload.addEventListener("change", async function () {
+// Intercetta CTRL+V
+document.addEventListener("paste", async (event) => {
 
-    const file = this.files[0];
+    const items = event.clipboardData.items;
 
-    if (!file) return;
+    for (const item of items) {
 
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
+        if (item.type.indexOf("image") !== -1) {
 
-    document.getElementById("emailFinale").value =
-        "⏳ Sto leggendo lo screenshot SAP...";
+            const file = item.getAsFile();
 
-    const result = await Tesseract.recognize(
-        file,
-        "eng+ita"
-    );
+            immagineSAP = file;
 
-    const testo = result.data.text;
-// Estrazione dati SAP
+            const reader = new FileReader();
 
-let hotel = "";
-let checkin = "";
-let checkout = "";
-let adulti = "";
-let camere = [];
-let prezzi = [];
-let cancellazione = "";
+            reader.onload = function(e){
 
-const date = testo.match(/\d{2}\.\d{2}\.\d{2}/g);
+                preview.src = e.target.result;
+                preview.style.display = "block";
 
-if (date && date.length >= 2) {
-    checkin = date[0];
-    checkout = date[1];
-}
+                risultato.innerHTML =
+                "✅ Screenshot incollato correttamente.<br><br>Premi <b>📷 Leggi Screenshot SAP</b>";
 
-if (testo.includes("2AD") || testo.includes("2 AD")) {
-    adulti = "2 Adulti";
-}
+            };
 
-const righe = testo.split("\n");
+            reader.readAsDataURL(file);
 
-righe.forEach(riga => {
+            return;
 
-    if (riga.includes("NH")) {
-        hotel = riga.trim();
+        }
+
     }
 
-    if (riga.includes("Standard")) {
-        camere.push(riga.trim());
-    }
-
-    if (riga.includes("Superior")) {
-        camere.push(riga.trim());
-    }
-
-    if (riga.includes("EUR")) {
-        prezzi.push(riga.trim());
-    }
-
-    if (riga.includes("24")) {
-        cancellazione = riga.trim();
-    }
+    risultato.innerHTML =
+    "❌ Negli appunti non è stata trovata nessuna immagine.";
 
 });
 
-document.getElementById("emailFinale").value =
-`HOTEL:
-${hotel}
+// Pulsante Leggi Screenshot
+document.getElementById("leggiSap").addEventListener("click", () => {
 
-CHECK IN:
-${checkin}
+    if(!immagineSAP){
 
-CHECK OUT:
-${checkout}
+        alert("Prima incolla uno screenshot con CTRL + V");
 
-OSPITI:
-${adulti}
+        return;
 
-CAMERE:
-${camere.join("\n")}
+    }
 
-PREZZI:
-${prezzi.join("\n")}
+    risultato.innerHTML =
+    "⏳ Screenshot ricevuto. Il modulo OCR verrà aggiunto nel prossimo passaggio.";
 
-CANCELLAZIONE:
-${cancellazione}`;
-    console.log(testo);
-
-    document.getElementById("emailFinale").value = testo;
 });
-// ===== OCR SAP =====
+
+// Pulsante Copia
+document.getElementById("copiaEmail").addEventListener("click",()=>{
+
+    const testo=document.getElementById("emailFinale");
+
+    testo.select();
+
+    document.execCommand("copy");
+
+    alert("Email copiata!");
+
+});
+[12:42, 3/8/2026] G C: // ===============================
+// EMAIL HELPER SAP
+// ===============================
+
+let immagineSAP = null;
+
+const pasteArea = document.getElementById("pasteArea");
+const preview = document.getElementById("preview");
+const risultato = document.getElementById("risultato");
+const emailFinale = document.getElementById("emailFinale");
+
+// Incolla screenshot con CTRL+V
+document.addEventListener("paste", function (e) {
+
+    const items = e.clipboardData.items;
+
+    for (let item of items) {
+
+        if (item.type.indexOf("image") !== -1) {
+
+            immagineSAP = item.getAsFile();
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                preview.src = event.target.result;
+                preview.style.display = "block";
+
+                risultato.innerHTML =
+                    "✅ Screenshot ricevuto.<br>Premi <b>Leggi Screenshot SAP</b>";
+
+            };
+
+            reader.readAsDataURL(immagineSAP);
+
+        }
+
+    }
+
+});
 
 async function leggiSAP(file) {
 
-    document.getElementById("risultato").innerHTML =
-    "⏳ Analisi screenshot in corso...";
+    risultato.innerHTML = "⏳ Lettura screenshot...";
 
-    const risultato = await Tesseract.recognize(
+    const datiOCR = await Tesseract.recognize(
         file,
-        "eng+ita"
+        "ita+eng"
     );
 
-    const testo = risultato.data.text;
-
-    console.log(testo);
+    const testo = datiOCR.data.text;
 
     analizzaSAP(testo);
 
 }
-
-function analizzaSAP(testo){
-
-    let dati = {
-
-        hotel:"",
-        checkin:"",
-        checkout:"",
-        adulti:"",
-        camere:[],
-        prezzi:[],
-        cancellazione:""
-
-    };
-
-    const date = testo.match(/\d{2}\.\d{2}\.\d{2}/g);
-
-    if(date && date.length>=2){
-
-        dati.checkin=date[0];
-        dati.checkout=date[1];
-
-    }
-
-    if(testo.includes("2 AD")){
-
-        dati.adulti="2 Adulti";
-
-    }
-
-    document.getElementById("risultato").innerHTML=
-`
-🏨 Hotel: ${dati.hotel}<br>
-📅 Check-in: ${dati.checkin}<br>
-📅 Check-out: ${dati.checkout}<br>
-👥 ${dati.adulti}
-`;
-
-}
-// ===== Avvio OCR =====
-
-document.getElementById("leggiSap").addEventListener("click", () => {
-
-    if (!window.immagineSAP) {
-        alert("Prima incolla lo screenshot con CTRL+V");
-        return;
-    }
-
-    leggiSAP(window.immagineSAP);
-
-
-
-});
