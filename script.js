@@ -131,3 +131,51 @@ async function leggiSAP(file) {
     analizzaSAP(testo);
 
 }
+function analizzaSAP(testo) {
+
+    let hotel = "";
+    let checkin = "";
+    let checkout = "";
+    let nome = "";
+
+    // Cerca le date
+    const date = testo.match(/\d{2}\.\d{2}\.\d{4}/g);
+
+    if (date && date.length >= 2) {
+        checkin = date[0];
+        checkout = date[1];
+    }
+
+    // Cerca il nome hotel
+    const righe = testo.split("\n");
+
+    righe.forEach(riga => {
+
+        if (riga.includes("MHC")) {
+            hotel = riga.trim();
+        }
+
+        if (
+            riga.toLowerCase().includes("guest") ||
+            riga.toLowerCase().includes("cliente")
+        ) {
+            nome = riga.replace("Guest", "").replace("Cliente", "").trim();
+        }
+
+    });
+
+    risultato.innerHTML = `
+🏨 Hotel: ${hotel}<br>
+📅 Check-in: ${checkin}<br>
+📅 Check-out: ${checkout}<br>
+👤 Cliente: ${nome}
+`;
+
+    window.datiSAP = {
+        hotel,
+        checkin,
+        checkout,
+        nome
+    };
+
+}
