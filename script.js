@@ -1,60 +1,54 @@
-// ==========================================
-// EMAIL HELPER SAP 2.0
-// PARTE 1 - INCOLLA SCREENSHOT + ANTEPRIMA
-// ==========================================
+// ===============================
+// EMAIL HELPER SAP - PARTE 1
+// ===============================
 
 let screenshotFile = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+const preview = document.getElementById("preview");
+const risultato = document.getElementById("risultato");
+const bottone = document.getElementById("leggiSap");
 
-    const pasteArea = document.getElementById("pasteArea");
-    const preview = document.getElementById("preview");
-    const risultato = document.getElementById("risultato");
+document.addEventListener("paste", (e) => {
 
-    document.addEventListener("paste", function (event) {
+    const items = e.clipboardData.items;
 
-        const items = event.clipboardData.items;
+    for (const item of items) {
 
-        for (const item of items) {
+        if (item.type.startsWith("image/")) {
 
-            if (item.type.startsWith("image/")) {
+            screenshotFile = item.getAsFile();
 
-                const file = item.getAsFile();
+            const reader = new FileReader();
 
-                if (!file) {
-                    continue;
-                }
+            reader.onload = function(ev){
 
-                screenshotFile = file;
+                preview.src = ev.target.result;
+                preview.style.display = "block";
 
-                const reader = new FileReader();
+                risultato.innerHTML =
+                "✅ Screenshot caricato correttamente.<br><br>Clicca <b>Leggi Screenshot SAP</b> per continuare.";
 
-                reader.onload = function (e) {
+            };
 
-                    if (preview) {
-                        preview.src = e.target.result;
-                        preview.style.display = "block";
-                    }
+            reader.readAsDataURL(screenshotFile);
 
-                    if (risultato) {
-                        risultato.innerHTML =
-                            "✅ Screenshot SAP ricevuto correttamente.<br><br>" +
-                            "Ora premi <b>Leggi Screenshot SAP</b>.";
-                    }
-
-                    if (pasteArea) {
-                        pasteArea.innerHTML =
-                            "✅ Screenshot caricato";
-                    }
-                };
-
-                reader.readAsDataURL(file);
-
-                event.preventDefault();
-
-                break;
-            }
+            break;
         }
-    });
+    }
+
+});
+
+bottone.addEventListener("click", () => {
+
+    if(!screenshotFile){
+
+        risultato.innerHTML =
+        "❌ Incolla prima uno screenshot SAP.";
+
+        return;
+    }
+
+    risultato.innerHTML =
+    "⏳ Analisi screenshot in preparazione...";
 
 });
