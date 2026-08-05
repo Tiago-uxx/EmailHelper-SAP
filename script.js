@@ -52,3 +52,26 @@ bottone.addEventListener("click", () => {
     "⏳ Analisi screenshot in preparazione...";
 
 });
+
+document.getElementById("leggiSap").addEventListener("click", async () => {
+
+    if (!screenshotFile) {
+        alert("Incolla prima uno screenshot SAP.");
+        return;
+    }
+
+    risultato.innerHTML = "🔍 Analisi dello screenshot in corso...";
+
+    const {
+        data: { text }
+    } = await Tesseract.recognize(
+        screenshotFile,
+        "eng"
+    );
+
+    console.log(text);
+
+    risultato.innerHTML =
+        "<pre>" + text + "</pre>";
+
+});
