@@ -75,3 +75,33 @@ document.getElementById("leggiSap").addEventListener("click", async () => {
         "<pre>" + text + "</pre>";
 
 });
+// ===============================
+// GENERAZIONE EMAIL
+// ===============================
+
+document.getElementById("generaEmail").addEventListener("click", () => {
+
+  const tipoCliente = document.getElementById("tipoCliente").value;
+  const template = document.getElementById("templateEmail").value;
+  const emailFinale = document.getElementById("emailFinale");
+
+  const testoSAP = document.querySelector("#risultato pre");
+
+  if (!testoSAP) {
+    alert("Prima devi leggere lo screenshot SAP.");
+    return;
+  }
+
+  const datiSAP = testoSAP.innerText;
+
+  emailFinale.value =
+`TIPO CLIENTE: ${tipoCliente}
+
+TEMPLATE: ${template}
+
+DATI SAP:
+${datiSAP}
+
+[QUI INSERIREMO IL TESTO DELLA EMAIL]`;
+
+});
